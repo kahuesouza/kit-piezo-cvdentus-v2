@@ -542,7 +542,17 @@ const REELS = {
   clinical:{dur:'22 s',
     cap:'✨ Tem tecnologia nova por aqui!\n\nConheça o Piezo Clinical Plus: do preparo à limpeza, um só cuidado. Ele reconhece cada tecido e ajusta o cuidado sozinho, em cada etapa do seu tratamento.\n\n💎 As pontas levam diamante CVD, feito em laboratório, que mantém a precisão consulta após consulta.\n\n❓ Vai doer? O nosso objetivo é que você mal perceba. Em muitos casos, o tratamento pode ser feito sem anestesia, e o seu dentista avalia o seu caso.'}
 };
-const reelBase=()=>`reels/${S.piezo}__${S.style}`;
+const REEL_KEYS=['gold','pink','purple','green','red','teal','orange'];   // mesma ordem de SWATCHES
+function reelColor(){      // -> {key, exact, name}
+  if(!S.brand) return {key:'def',exact:true,name:'Padrão do piezo'};
+  const i=SWATCHES.findIndex(x=>x[1].toLowerCase()===S.brand.toLowerCase());
+  if(i>=0) return {key:REEL_KEYS[i],exact:true,name:SWATCHES[i][0]};
+  const [h,sat]=hexToHsl(S.brand); if(sat<8) return {key:'def',exact:false,name:'Padrão do piezo'};
+  let best=0,bd=999; SWATCHES.forEach((x,k)=>{const d=Math.abs(((hexToHsl(x[1])[0]-h+540)%360)-180); if(d<bd){bd=d;best=k}});
+  return {key:REEL_KEYS[best],exact:false,name:SWATCHES[best][0]};
+}
+const reelBase=()=>{const c=reelColor(); return `reels/${S.piezo}__${S.style}${c.key==='def'?'':'__'+c.key}`;};
+const reelTag=()=>{const c=reelColor(); return STYLES[S.style].name+(c.key==='def'?'':'_'+c.name);};
 const reelURL=()=>reelBase()+'.mp4', reelPoster=()=>reelBase()+'.jpg';
 const PIEZOS = {
   optymus:{
@@ -955,12 +965,12 @@ function refreshPreview(){
       const R=REELS[S.piezo]; ig.className='ig story'; $('pframe').style.display='none'; vid.style.display='block';
       const avail0=ig.clientWidth||440; const w0=Math.min(280,Math.max(190,Math.round(avail0-70)));
       vid.style.width=w0+'px'; vid.style.height=Math.round(w0*16/9)+'px';
-      const vk=S.piezo+'|'+S.style; if(vid.getAttribute('data-k')!==vk){ vid.setAttribute('data-k',vk); vid.poster=reelPoster(); vid.src=reelURL(); }
+      const vk=reelBase(); if(vid.getAttribute('data-k')!==vk){ vid.setAttribute('data-k',vk); vid.poster=reelPoster(); vid.src=reelURL(); }
       $('igsub').textContent='Reels · áudio original'; $('igprog').innerHTML='';
       $('pvbar').style.display='none'; $('capbox').style.display='block'; $('caplab').textContent='Legenda do Reels';
       const ta0=$('captext'); if(document.activeElement!==ta0) ta0.value=captionFor({cap:R.cap});
-      const dl=$('pvdl'); dl.style.display='inline-flex'; dl.href=reelURL(); dl.setAttribute('download','Reels_'+p.name.replace(/\s/g,'')+'.mp4'); dl.textContent=IS_MOBILE?'Salvar Reels':'Baixar Reels';
-      $('pcap').textContent=`Reels · ${R.dur} · estilo ${STYLES[S.style].name} · trilha sonora, sem logo do cliente. Baixe só se quiser.`;
+      const dl=$('pvdl'); dl.style.display='inline-flex'; dl.href=reelURL(); dl.setAttribute('download','Reels_'+p.name.replace(/\s/g,'')+'_'+reelTag()+'.mp4'); dl.textContent=IS_MOBILE?'Salvar Reels':'Baixar Reels';
+      const rc=reelColor(); $('pcap').textContent=`Reels · ${R.dur} · estilo ${STYLES[S.style].name}${rc.key==='def'?'':' · cor '+rc.name+(rc.exact?'':' (a mais próxima da sua)')} · trilha sonora, sem logo do cliente. Baixe só se quiser.`;
       updateSummary(); return;
     }
     try{vid.pause()}catch(e){} vid.style.display='none'; $('pframe').style.display=''; $('pvbar').style.display=''; $('pvdl').style.display='none'; $('caplab').textContent='Legenda do post';
@@ -1077,7 +1087,7 @@ let CAN_SHARE=false; try{ CAN_SHARE=!!(navigator.canShare&&navigator.canShare({f
 if(IS_MOBILE) document.body.classList.add('mobile');
 const RCACHE=new Map(); let REELBLOB={};
 async function pngFor(rec){ if(RCACHE.has(rec.fname)) return RCACHE.get(rec.fname); const b=await renderPNG(rec); RCACHE.set(rec.fname,b); return b; }
-async function reelFile(){ const k=S.piezo+'|'+S.style; if(!REELBLOB[k]){ const rv=await fetch(reelURL()); REELBLOB[k]=await rv.blob(); } return new File([REELBLOB[k]],'Reels_'+PIEZOS[S.piezo].name.replace(/\s/g,'')+'_'+STYLES[S.style].name+'.mp4',{type:'video/mp4'}); }
+async function reelFile(){ const k=reelBase(); if(!REELBLOB[k]){ const rv=await fetch(reelURL()); REELBLOB[k]=await rv.blob(); } return new File([REELBLOB[k]],'Reels_'+PIEZOS[S.piezo].name.replace(/\s/g,'')+'_'+reelTag()+'.mp4',{type:'video/mp4'}); }
 async function shareFiles(files,title){
   if(!CAN_SHARE) return false;
   try{ await navigator.share({files,title}); return true; }catch(e){ return !!(e&&e.name==='AbortError'); }
@@ -1133,10 +1143,10 @@ function buildReel(){
   const p=PIEZOS[S.piezo], R=REELS[S.piezo], box=$('galReel'); box.innerHTML='';
   const cap=captionFor({cap:R.cap});
   box.innerHTML=`<video controls playsinline preload="metadata" poster="${reelPoster()}" src="${reelURL()}"></video>
-    <div class="rinfo"><div><h3>Reels do Piezo <em>${esc(p.name)}</em></h3><p>Todos os stories em sequência, com trilha sonora e sem locução. Este vídeo não leva a logo do consultório: é só baixar e publicar. A legenda abaixo leva o seu nome, o @ e o WhatsApp.</p></div>
+    <div class="rinfo"><div><h3>Reels do Piezo <em>${esc(p.name)}</em></h3><p>Todos os stories em sequência, com trilha sonora e sem locução. Ele acompanha o estilo e a cor que você escolheu e não leva a logo do consultório: é só baixar e publicar. A legenda abaixo leva o seu nome, o @ e o WhatsApp.</p></div>
     <div class="tags"><span>1080 × 1920</span><span>${R.dur}</span><span>Só trilha sonora</span><span>Sem logo do cliente</span></div>
     <textarea id="reelcap" spellcheck="false" aria-label="Legenda do Reels">${esc(cap)}</textarea>
-    <div class="row2"><a class="dl" id="reeldl" href="${reelURL()}" download="Reels_${p.name.replace(/\s/g,'')}_${STYLES[S.style].name}.mp4" style="text-decoration:none;display:inline-block">${IS_MOBILE?'Salvar / compartilhar Reels':'Baixar Reels (.mp4)'}</a><button class="dl sec" id="reelcopy" type="button">Copiar legenda</button></div></div>`;
+    <div class="row2"><a class="dl" id="reeldl" href="${reelURL()}" download="Reels_${p.name.replace(/\s/g,'')}_${reelTag()}.mp4" style="text-decoration:none;display:inline-block">${IS_MOBILE?'Salvar / compartilhar Reels':'Baixar Reels (.mp4)'}</a><button class="dl sec" id="reelcopy" type="button">Copiar legenda</button></div></div>`;
   $('reelcopy').onclick=()=>copyText($('reelcap').value,'Legenda copiada ✓');
   if(IS_MOBILE) $('reeldl').onclick=e=>{ e.preventDefault(); shareReel(); };
 }
@@ -1158,7 +1168,7 @@ async function downloadZip(){
   try{
     for(let i=0;i<ITEMS.length;i++){toast(`Gerando arte ${i+1} de ${ITEMS.length}…`);zip.file(ITEMS[i].fname,await renderPNG(ITEMS[i]))}
     const caps=allCaptions()+(REELS[S.piezo]?'\n\n------------------------------\n\nREELS\n\n'+($('reelcap')?$('reelcap').value:''):''); if(caps) zip.file('legendas.txt',caps);
-    try{ toast('Juntando o Reels…'); const rv=await fetch(reelURL()); if(rv.ok) zip.file('Reels_'+PIEZOS[S.piezo].name.replace(/\s/g,'')+'_'+STYLES[S.style].name+'.mp4',await rv.blob()); }catch(e){}
+    try{ toast('Juntando o Reels…'); const rv=await fetch(reelURL()); if(rv.ok) zip.file('Reels_'+PIEZOS[S.piezo].name.replace(/\s/g,'')+'_'+reelTag()+'.mp4',await rv.blob()); }catch(e){}
     const blob=await zip.generateAsync({type:'blob'}); saveBlob(blob,`artes-piezo-${PIEZOS[S.piezo].name.replace(/\s/g,'').toLowerCase()}.zip`); toast('Tudo pronto! Confira os Downloads ✓');
   }catch(e){console.error(e);toast('Algo deu errado ao gerar. Tente baixar uma por uma.')}
   b.disabled=false;
