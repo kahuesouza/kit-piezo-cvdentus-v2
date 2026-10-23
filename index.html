@@ -65,7 +65,7 @@ button{font-family:inherit;cursor:pointer}
 .pcard:hover .go b{transform:translateX(6px)}
 
 /* --- Step 2 --- */
-.split{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:34px;align-items:start}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 500px;gap:34px;align-items:start}
 .panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:30px}
 .panel h2{font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--navy)}
 .panel h2 em{font-style:normal;font-weight:300;color:var(--royal)}
@@ -79,6 +79,19 @@ button{font-family:inherit;cursor:pointer}
 .drop .ic{width:42px;height:42px;margin:0 auto 12px;border-radius:12px;background:#E8F0FF;color:var(--royal);display:flex;align-items:center;justify-content:center}
 .drop b{display:block;font-size:15px;font-weight:700;color:var(--navy)}
 .drop span{font-size:12.5px;color:#7B8BA6;font-weight:500}
+.lpv{display:none;align-items:center;gap:16px;margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:16px;background:#F8FBFF}
+.lpv.on{display:flex;animation:rise .45s var(--ease)}
+.lpvbox{flex:0 0 auto;border-radius:14px;padding:10px 16px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -10px rgba(10,31,68,.5);border:1px solid rgba(10,31,68,.1);min-width:96px;height:78px;transition:background .3s}
+.lpvbox img{max-height:56px;max-width:190px;display:block;object-fit:contain}
+.lpvtxt{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--mute);font-weight:500;line-height:1.4;min-width:0}
+.lpvtxt b{font-size:13.5px;color:var(--navy);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pvbar{display:flex;align-items:center;gap:14px;justify-content:center}
+.pvnav{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:0;background:#fff;color:var(--navy);font-size:20px;box-shadow:0 4px 12px rgba(10,31,68,.15);transition:.25s var(--ease)}
+.pvnav:hover{background:var(--navy);color:#fff;transform:scale(1.08)}
+.dots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
+.dots button{border:0;background:rgba(10,31,68,.18);width:9px;height:9px;border-radius:50%;padding:0;transition:.3s var(--ease)}
+.dots button.sel{background:var(--navy);width:26px;border-radius:6px}
+.live .btn{padding:11px 18px;font-size:13px}
 .lcompare{display:none;grid-template-columns:1fr 1fr;gap:12px}
 .lcompare.on{display:grid;animation:rise .45s var(--ease)}
 .lbox{border:1px solid var(--line);border-radius:14px;height:150px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
@@ -160,7 +173,7 @@ input.swc.sel{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--navy)}
 .stickybar .in{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 20px 40px -20px rgba(10,31,68,.35)}
 .progress{position:fixed;left:0;top:0;height:3px;background:var(--royal);width:0;z-index:100;transition:width .3s}
 
-.lb{position:fixed;inset:0;background:rgba(6,19,48,.88);z-index:60;display:none;align-items:center;justify-content:center;padding:24px}
+.lb{position:fixed;inset:0;background:rgba(6,19,48,.96);z-index:60;display:none;align-items:center;justify-content:center;padding:24px}
 .lb.on{display:flex;animation:fadein .3s}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 .lb .lbframe{position:relative;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5)}
@@ -168,7 +181,8 @@ input.swc.sel{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--navy)}
 .lb .x,.lb .nv{position:absolute;border:0;background:rgba(255,255,255,.14);color:#fff;width:46px;height:46px;border-radius:50%;font-size:20px;transition:.2s}
 .lb .x:hover,.lb .nv:hover{background:rgba(255,255,255,.28)}
 .lb .x{top:20px;right:20px}.lb .nv.p{left:20px;top:50%}.lb .nv.n{right:20px;top:50%}
-.lb .bar{position:absolute;bottom:20px;left:50%;transform:translateX(-50%)}
+.lb .bar{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;white-space:nowrap}
+.lb .bar span{color:#fff;font-size:13px;font-weight:600;opacity:.85}
 
 .toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--navy);color:#fff;padding:13px 22px;border-radius:14px;font-weight:700;font-size:13px;opacity:0;transition:.4s var(--ease);z-index:90;pointer-events:none}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -269,31 +283,20 @@ input.swc.sel{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--navy)}
           <div class="drop" id="drop" tabindex="0" role="button" aria-label="Enviar logo">
             <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></div>
             <b>Clique ou arraste a sua logo até aqui</b>
-            <span>O fundo é removido automaticamente</span>
+            <span>A sua logo entra numa caixa que combina com ela</span>
             <input type="file" id="fileInput" accept="image/*" hidden>
           </div>
-          <div class="lcompare" id="lcompare">
-            <div class="lbox orig" id="lorig" title="Clique para escolher a cor do fundo"><span class="cap">Original · clique no fundo</span></div>
-            <div class="lbox res" id="lres"><span class="cap">Sem fundo</span></div>
-          </div>
-          <div class="lstatus" id="lstatus" style="display:none"><span class="dot"></span><span id="lstxt"></span></div>
-          <details class="adv" id="adv" style="display:none">
-            <summary>Ajustar a remoção do fundo <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="advrow"><label for="tol">Sensibilidade</label><input type="range" id="tol" min="6" max="90" value="34"></div>
-            <div class="advrow"><label for="soft">Suavidade da borda</label><input type="range" id="soft" min="8" max="90" value="38"></div>
-            <div class="advrow"><label class="check"><input type="checkbox" id="inner"> Remover também o fundo dentro das letras e formas</label></div>
-            <div class="advrow"><button class="minibtn" id="rawbtn" type="button">Usar a logo sem remover o fundo</button><button class="minibtn" id="dlLogo" type="button">Baixar logo sem fundo</button></div>
-          </details>
+          <div class="lpv" id="lpv"><div class="lpvbox" id="lpvbox"><img id="lpvimg" alt="Sua logo"></div><div class="lpvtxt"><b id="lpvname">Logo carregada</b><span id="lpvnote"></span></div></div>
+        </div>
+
+        <div class="sec" id="boxSec" style="display:none">
+          <div class="lab">Caixa da logo <small>onde a logo fica nas artes</small></div>
+          <div class="seg" id="segBox"><button data-v="auto" class="sel" type="button">Automática</button><button data-v="light" type="button">Branca</button><button data-v="dark" type="button">Azul-marinho</button></div>
         </div>
 
         <div class="sec">
           <div class="lab">Estilo das artes <small id="styleName"></small></div>
           <div class="styles" id="styleGrid"></div>
-        </div>
-
-        <div class="sec" id="logoModeSec" style="display:none">
-          <div class="lab">Cor da logo <small id="lmHint"></small></div>
-          <div class="seg" id="segLogo"><button data-v="auto" class="sel" type="button">Automático</button><button data-v="original" type="button">Cores originais</button><button data-v="mono" type="button" id="monoBtn">Branca</button></div>
         </div>
 
         <div class="sec">
@@ -320,7 +323,9 @@ input.swc.sel{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--navy)}
         <div class="stagebox">
           <div class="tabs" id="ptabs"><button class="sel" data-k="feed" type="button">Feed</button><button data-k="story" type="button">Story</button></div>
           <div class="frame" id="pframe"><div class="inner" id="pinner"></div></div>
-          <div class="cap">Pré-visualização ao vivo</div>
+          <div class="pvbar"><button class="pvnav" id="pvp" type="button" aria-label="Arte anterior">‹</button><div class="dots" id="pdots"></div><button class="pvnav" id="pvn" type="button" aria-label="Próxima arte">›</button></div>
+          <div class="cap" id="pcap">Pré-visualização ao vivo</div>
+          <button class="btn gho" id="pvall" type="button">Ver as 8 artes em tela cheia</button>
         </div>
       </aside>
     </div>
@@ -345,7 +350,7 @@ input.swc.sel{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--navy)}
   <footer class="foot"><span>CVDentus · Inovação, Tecnologia e Soluções em Diamante</span><span>As imagens são geradas no seu dispositivo.</span></footer>
 </div>
 
-<div class="lb" id="lb"><button class="x" type="button" id="lbx" aria-label="Fechar">✕</button><button class="nv p" type="button" id="lbp" aria-label="Anterior">‹</button><div class="lbframe" id="lbframe"><div class="inner" id="lbinner"></div></div><button class="nv n" type="button" id="lbn" aria-label="Próxima">›</button><div class="bar"><button class="btn pri" type="button" id="lbdl">Baixar esta arte</button></div></div>
+<div class="lb" id="lb"><button class="x" type="button" id="lbx" aria-label="Fechar">✕</button><button class="nv p" type="button" id="lbp" aria-label="Anterior">‹</button><div class="lbframe" id="lbframe"><div class="inner" id="lbinner"></div></div><button class="nv n" type="button" id="lbn" aria-label="Próxima">›</button><div class="bar"><span id="lbcap"></span><button class="btn pri" type="button" id="lbdl">Baixar esta arte</button></div></div>
 <div class="offstage" id="offstage"></div>
 <div class="toast" id="toast"></div>
 
@@ -390,7 +395,7 @@ const PIEZOS = {
       {v:'benefit', eyebrow:'O que muda para você', title:'Cada etapa, *no seu ritmo.*', items:[
         ['Reconhece cada tecido','A tecnologia entende onde está trabalhando.'],
         ['Ajusta sozinha','O cuidado se adapta a cada fase do procedimento.'],
-        ['Conforto em qualquer tratamento','Limpeza, canal ou preparo, com o mesmo cuidado.']]},
+        ['Conforto constante','Limpeza, canal ou preparo, com o mesmo cuidado.']]},
       {v:'tech', eyebrow:'Diamante de verdade', title:'Precisão constante, *consulta após consulta.*', sub:'Pontas de diamante genuíno mantêm o padrão do seu tratamento da primeira à última sessão.', chip:'Pontas de diamante CVD'}
     ],
     story:[
@@ -413,7 +418,7 @@ const PIEZOS = {
       {v:'benefit', eyebrow:'O que muda para você', title:'Precisão onde *mais importa.*', items:[
         ['Corte seletivo','Age no osso e respeita os tecidos delicados ao redor.'],
         ['Mais segurança','Cuidado extra perto de nervos e membranas.'],
-        ['Recuperação mais tranquila','Um corte delicado pode significar menos trauma.']]},
+        ['Recuperação tranquila','Um corte delicado pode significar menos trauma.']]},
       {v:'tech', eyebrow:'Precisão do início ao fim', title:'Mesmo em osso resistente, *a mesma precisão.*', sub:'A tecnologia mantém o corte controlado do começo ao fim, para um procedimento mais seguro.', chip:'Tecnologia cirúrgica CVDentus'}
     ],
     story:[
@@ -445,11 +450,8 @@ const S = {
   piezo:null, theme:'dark', style:'navy', brand:null, handle:'', phone:'',
   raw:null,            // HTMLImageElement original
   rawW:0, rawH:0,
-  tol:34, soft:38, inner:false, bgColor:null, skipRemoval:false,
-  logoMode:'auto',
-  cut:null,            // canvas já recortado (sem fundo)
-  cutInfo:'',
-  prev:'feed'
+  boxMode:'auto', logoURL:null, logoAspect:1, logoBg:[255,255,255], logoBgShare:0, logoTransparent:false, logoLight:0,
+  prev:'feed', pv:{feed:0,story:0}
 };
 const $ = id=>document.getElementById(id);
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3200)}
@@ -472,11 +474,11 @@ async function prepareBrandAssets(){
 }
 
 /* ============================================================
-   REMOÇÃO DE FUNDO DA LOGO (100% no navegador)
+   LOGO DO CLIENTE: mantida com o fundo original, dentro de uma caixa
    ============================================================ */
-function fitCanvas(im,max=1100){
-  const w0=im.naturalWidth||im.width,h0=im.naturalHeight||im.height; const s=Math.min(1,max/Math.max(w0,h0));
-  const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w0*s)); c.height=Math.max(1,Math.round(h0*s));
+function fitCanvas(im,max=900){
+  const w0=im.naturalWidth||im.width,h0=im.naturalHeight||im.height; const k=Math.min(1,max/Math.max(w0,h0));
+  const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w0*k)); c.height=Math.max(1,Math.round(h0*k));
   c.getContext('2d').drawImage(im,0,0,c.width,c.height); return c;
 }
 function estimateBg(d,w,h){
@@ -486,90 +488,34 @@ function estimateBg(d,w,h){
   for(let x=0;x<w;x++){add(x,0);add(x,h-1)} for(let y=1;y<h-1;y++){add(0,y);add(w-1,y)}
   let best=null; buckets.forEach(b=>{if(!best||b.n>best.n)best=b});
   if(!best) return {rgb:[255,255,255],share:0};
-  return {rgb:[best.r/best.n,best.g/best.n,best.b/best.n], share:best.n/Math.max(1,n)};
+  return {rgb:[Math.round(best.r/best.n),Math.round(best.g/best.n),Math.round(best.b/best.n)], share:best.n/Math.max(1,n)};
 }
-function removeBackground(src,opt){
-  const w=src.width,h=src.height; const ctx=src.getContext('2d');
-  const id=ctx.getImageData(0,0,w,h); const d=id.data; const N=w*h;
-  // já é transparente?
-  let tr=0; for(let i=3;i<d.length;i+=4) if(d[i]<250) tr++;
-  const info={transparent: tr/N>0.004, share:1, bg:null};
-  if(!opt.skip && !info.transparent){
-    const est=opt.bgColor?{rgb:opt.bgColor,share:1}:estimateBg(d,w,h);
-    info.share=est.share; info.bg=est.rgb;
-    const [br,bg_,bb]=est.rgb; const t0=opt.tol, t1=opt.tol+opt.soft;
-    const dist=i=>{const dr=d[i]-br,dg=d[i+1]-bg_,db=d[i+2]-bb;return Math.sqrt(dr*dr+dg*dg+db*db)};
-    const alphaOf=dd=>{if(dd<=t0)return 0;if(dd>=t1)return 1;const u=(dd-t0)/(t1-t0);return u*u*(3-2*u)};
-    const region=new Uint8Array(N);
-    if(opt.inner){ for(let p=0;p<N;p++){ if(dist(p*4)<t1) region[p]=1 } }
-    else{
-      const stack=new Int32Array(N); let sp=0;
-      const seed=p=>{if(!region[p]&&dist(p*4)<t1){region[p]=1;stack[sp++]=p}};
-      for(let x=0;x<w;x++){seed(x);seed((h-1)*w+x)} for(let y=0;y<h;y++){seed(y*w);seed(y*w+w-1)}
-      while(sp){const p=stack[--sp];const x=p%w,y=(p/w)|0;
-        if(x>0)seed(p-1); if(x<w-1)seed(p+1); if(y>0)seed(p-w); if(y<h-1)seed(p+w);}
-    }
-    for(let p=0;p<N;p++){ if(!region[p]) continue; const i=p*4; const a=alphaOf(dist(i));
-      if(a<=0){d[i+3]=0;continue}
-      if(a<1){ // remove o "halo" da cor do fundo nas bordas suavizadas
-        d[i]=Math.max(0,Math.min(255,(d[i]-(1-a)*br)/a)); d[i+1]=Math.max(0,Math.min(255,(d[i+1]-(1-a)*bg_)/a)); d[i+2]=Math.max(0,Math.min(255,(d[i+2]-(1-a)*bb)/a));
-        d[i+3]=Math.round(d[i+3]*a);
-      }
-    }
-    ctx.putImageData(id,0,0);
-  }
-  // recorta as margens vazias
-  const id2=ctx.getImageData(0,0,w,h),e=id2.data; let x0=w,y0=h,x1=-1,y1=-1;
-  for(let y=0;y<h;y++)for(let x=0;x<w;x++){ if(e[(y*w+x)*4+3]>14){ if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y } }
-  if(x1<0) return {canvas:null,info};
-  const pad=Math.round(Math.max(w,h)*0.004);
-  x0=Math.max(0,x0-pad);y0=Math.max(0,y0-pad);x1=Math.min(w-1,x1+pad);y1=Math.min(h-1,y1+pad);
-  const out=document.createElement('canvas'); out.width=x1-x0+1; out.height=y1-y0+1;
-  out.getContext('2d').drawImage(src,x0,y0,out.width,out.height,0,0,out.width,out.height);
-  // quanto do desenho tem pouco contraste com fundo escuro / claro
-  const od=out.getContext('2d').getImageData(0,0,out.width,out.height).data; let A=0,pd=0,pl=0;
-  const lin=c=>{c/=255;return c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4)};
-  for(let i=0;i<od.length;i+=4){ if(od[i+3]<128) continue; const L=0.2126*lin(od[i])+0.7152*lin(od[i+1])+0.0722*lin(od[i+2]); A++;
-    if(L<0.14) pd++; if(L>0.30) pl++; }
-  info.poorDark=A?pd/A:0; info.poorLight=A?pl/A:0;
-  return {canvas:out,info};
+const lin=c=>{c/=255;return c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4)};
+function processLogo(fileName){
+  const base=fitCanvas(S.raw); const w=base.width,h=base.height; const ctx=base.getContext('2d');
+  const d=ctx.getImageData(0,0,w,h).data; let tr=0; for(let i=3;i<d.length;i+=4) if(d[i]<250) tr++;
+  S.logoTransparent = tr/(w*h)>0.004;
+  const est=estimateBg(d,w,h); S.logoBg=est.rgb; S.logoBgShare=est.share;
+  let A=0,light=0; for(let i=0;i<d.length;i+=4){ if(d[i+3]<128) continue; const L=0.2126*lin(d[i])+0.7152*lin(d[i+1])+0.0722*lin(d[i+2]); A++; if(L>0.30) light++; }
+  S.logoLight = A? light/A : 0;
+  S.logoAspect = w/h;
+  S.logoURL = S.logoTransparent ? base.toDataURL('image/png') : base.toDataURL('image/jpeg',.94);
+  refreshLogoUI(fileName);
 }
-let reprocT;
-function reprocessSoon(){clearTimeout(reprocT);reprocT=setTimeout(processLogo,120)}
-function processLogo(){
-  if(!S.raw) return;
-  const base=fitCanvas(S.raw);
-  let r=removeBackground(base,{tol:S.tol,soft:S.soft,inner:S.inner,bgColor:S.bgColor,skip:S.skipRemoval});
-  let note='';
-  if(!r.canvas){ r=removeBackground(fitCanvas(S.raw),{skip:true}); note='O fundo se confundiu com o desenho, então mantivemos a imagem original. Ajuste a sensibilidade ou clique no fundo da imagem original.'; }
-  S.cut=r.canvas; S.poorDark=r.info.poorDark; S.poorLight=r.info.poorLight;
-  const st=$('lstatus'),tx=$('lstxt'); st.style.display='flex'; st.classList.toggle('warn',!!note||(r.info.share<.55&&!r.info.transparent&&!S.skipRemoval));
-  if(note) tx.textContent=note;
-  else if(S.skipRemoval) tx.textContent='Usando a logo exatamente como foi enviada.';
-  else if(r.info.transparent) tx.textContent='Sua logo já tem fundo transparente. Recortamos apenas as margens.';
-  else if(r.info.share<.55) tx.textContent='O fundo parece irregular. Se sobrou algo, aumente a sensibilidade ou clique no fundo da imagem original.';
-  else tx.textContent='Fundo removido automaticamente e margens recortadas.';
-  // pré-visualizações
-  const lo=$('lorig'),lr=$('lres'); lo.querySelectorAll('img').forEach(n=>n.remove()); lr.querySelectorAll('canvas,img').forEach(n=>n.remove());
-  const oi=new Image(); oi.src=S.raw.src; oi.draggable=false; lo.appendChild(oi);
-  const rc=document.createElement('canvas'); rc.width=S.cut.width; rc.height=S.cut.height; rc.getContext('2d').drawImage(S.cut,0,0); lr.appendChild(rc);
-  lr.classList.toggle('dk',S.poorLight>0.6);
-  $('lcompare').classList.add('on'); $('adv').style.display='block'; $('logoModeSec').style.display='block';
-  updateLogoModeUI(); $('toGallery').disabled=false; refreshPreview();
+function boxFill(){
+  if(S.boxMode==='light') return '#FFFFFF';
+  if(S.boxMode==='dark') return '#0A1F44';
+  if(!S.logoTransparent && S.logoBgShare>=0.5){ const [r,g,b]=S.logoBg; return `rgb(${r},${g},${b})`; }
+  return S.logoTransparent && S.logoLight>0.45 ? '#0A1F44' : '#FFFFFF';
 }
-function logoIsDarkForTheme(){return S.theme==='dark' ? S.poorDark>0.45 : S.poorLight>0.45}
-function updateLogoModeUI(){
-  $('monoBtn').textContent = S.theme==='dark'?'Branca':'Azul-marinho';
-  let h='';
-  if(S.logoMode==='auto' && S.cut && logoIsDarkForTheme()) h = S.theme==='dark'?'logo escura: aplicamos a versão branca para aparecer no fundo navy':'logo clara: aplicamos a versão escura para aparecer no fundo branco';
-  $('lmHint').textContent=h;
-}
-function finalLogoURL(theme){
-  if(!S.cut) return null;
-  const want = S.logoMode==='mono' || (S.logoMode==='auto' && (theme==='dark' ? S.poorDark>0.45 : S.poorLight>0.45));
-  const c=document.createElement('canvas'); c.width=S.cut.width; c.height=S.cut.height; const x=c.getContext('2d'); x.drawImage(S.cut,0,0);
-  if(want){ x.globalCompositeOperation='source-in'; x.fillStyle=theme==='dark'?'#FFFFFF':'#0A1F44'; x.fillRect(0,0,c.width,c.height); }
-  return c.toDataURL('image/png');
+function refreshLogoUI(fileName){
+  if(!S.logoURL) return;
+  $('lpvbox').style.background=boxFill(); $('lpvimg').src=S.logoURL; $('lpv').classList.add('on'); $('boxSec').style.display='block';
+  if(fileName) $('lpvname').textContent=fileName;
+  $('lpvnote').textContent = S.boxMode==='auto'
+    ? (!S.logoTransparent&&S.logoBgShare>=.5 ? 'A caixa usa a cor do fundo da sua logo, sem emenda.' : (S.logoTransparent ? 'Logo transparente: a caixa escolhe branco ou azul-marinho para dar contraste.' : 'O fundo da logo é irregular: usamos uma caixa branca.'))
+    : 'Caixa escolhida por você.';
+  $('toGallery').disabled=false; refreshPreview();
 }
 
 /* ============================================================
@@ -660,11 +606,19 @@ function tipBadge(cx,cy,size,th){
   <div class="abs" style="left:${l}px;top:${t}px;width:${size}px;height:${size}px;border-radius:50%;border:${Math.round(size/60)}px solid var(--hl);background:url(${img(ASSETS.tip.b)}) center/cover no-repeat"></div>
   <div class="abs" style="left:${cx-size*0.38}px;top:${t+size-size*0.1}px;width:${size*0.76}px;height:${Math.round(size*0.17)}px;border-radius:999px;background:var(--hl);color:var(--btnfg);display:flex;align-items:center;justify-content:center;font-size:${Math.round(size*0.068)}px;font-weight:800;letter-spacing:.12em;text-transform:uppercase">Diamante CVD</div>`;
 }
+function logoBoxHTML(story,M,topY,theme){
+  const H=story?152:114, padY=story?18:13, padX=story?32:26, maxW=story?440:340; const dark=theme==='dark';
+  if(!S.logoURL) return `<div class="abs" style="left:${M}px;top:${topY}px;height:${H}px;width:${story?300:230}px;border-radius:${story?30:26}px;border:3px dashed var(--soft);display:flex;align-items:center;justify-content:center;font-size:${story?26:21}px;font-weight:800;letter-spacing:.14em;color:var(--soft);text-align:center;line-height:1.3">SUA<br>LOGO</div>`;
+  const ih=H-padY*2; let iw=ih*S.logoAspect, ihh=ih; if(iw>maxW){iw=maxW;ihh=iw/S.logoAspect}
+  const fill=boxFill(); const bw=Math.round(iw+padX*2);
+  const border=dark?'rgba(255,255,255,.24)':'rgba(10,31,68,.10)';
+  const shadow=dark?'0 14px 36px rgba(0,6,22,.5)':'0 14px 32px rgba(10,31,68,.18)';
+  return `<div class="abs" style="left:${M}px;top:${topY}px;width:${bw}px;height:${H}px;background:${fill};border-radius:${story?30:26}px;border:2px solid ${border};box-shadow:${shadow};display:flex;align-items:center;justify-content:center"><img src="${S.logoURL}" style="width:${Math.round(iw)}px;height:${Math.round(ihh)}px;object-fit:contain;display:block" alt=""></div>`;
+}
 function makeCard(kind,d,idx){
   const p=PIEZOS[S.piezo]; const key=S.piezo; const th=themeColors(p); const theme=S.theme; const dark=theme==='dark';
   const card=document.createElement('div'); card.className=`card ${kind} ${theme}${(STYLES[S.style]||{}).plate?' plate':''}`;
   card.style.setProperty('--hl',th.hl); card.style.setProperty('--btnfg',dark?'#06182F':'#fff');
-  const logoURL=finalLogoURL(theme);
   const story=kind==='story'; const M=72; const W=1080, H=story?1920:1080;
   const topY=story?150:68;
   let h='';
@@ -673,7 +627,7 @@ function makeCard(kind,d,idx){
   if(plate){
     h+=`<div class="bgl" style="background:url(${plateURL(ST.plate,kind)}) center/cover no-repeat"></div>`;
     h+= dark
-      ? `<div class="bgl" style="background:linear-gradient(${story?'180deg':'100deg'},rgba(3,10,30,${ST.plate==='clinic'?.72:.58}) 0%,rgba(3,10,30,${ST.plate==='clinic'?.34:.2}) ${story?'48%':'66%'},rgba(3,10,30,${story?.42:.1}) 100%)"></div>`
+      ? `<div class="bgl" style="background:linear-gradient(${story?'180deg':'100deg'},rgba(3,10,30,${ST.plate==='clinic'?.72:.58}) 0%,rgba(3,10,30,${ST.plate==='clinic'?.4:.3}) ${story?'48%':'72%'},rgba(3,10,30,${story?.42:.1}) 100%)"></div>`
       : `<div class="bgl" style="background:linear-gradient(${story?'180deg':'100deg'},rgba(244,248,254,.92) 0%,rgba(244,248,254,.82) 58%,rgba(244,248,254,.05) 92%)"></div>`+(story?`<div class="bgl" style="background:linear-gradient(0deg,rgba(244,248,254,.9) 0%,rgba(244,248,254,.7) 12%,rgba(244,248,254,0) 26%)"></div>`:'');
   }else{
     h+=`<div class="bgl" style="background:${dark?'linear-gradient(165deg,#0B2250 0%,#0A1F44 38%,#061330 100%)':'linear-gradient(165deg,#FAFCFF 0%,#EDF3FB 45%,#DDE8F6 100%)'}"></div>`;
@@ -740,8 +694,8 @@ function makeCard(kind,d,idx){
 
   // topo: logo do cliente + logo do modelo
   const ml=TINT['m_'+key][theme]; const mh=story?62:50; const mw=Math.round(mh*MODEL_LOGO[key].w/MODEL_LOGO[key].h);
-  h+=`<div class="clogo" style="left:${M}px;top:${topY}px;height:${story?130:104}px">${logoURL?`<img src="${logoURL}" alt="">`:`<div class="ph">SUA<br>LOGO</div>`}</div>`;
-  h+=`<img class="mlogo" src="${ml}" style="right:${M}px;top:${topY+(story?34:26)}px;height:${mh}px;width:${mw}px" alt="">`;
+  h+=logoBoxHTML(story,M,topY,theme);
+  h+=`<img class="mlogo" src="${ml}" style="right:${M}px;top:${topY+Math.round(((story?152:114)-mh)/2)}px;height:${mh}px;width:${mw}px" alt="">`;
   // rodapé
   const footY=story?1790:984;
   const handleShow = S.handle && !(story&&d.v==='cta');
@@ -760,15 +714,27 @@ function mountScaled(frame,inner,card,w){
   inner.innerHTML=''; inner.style.width=nat[0]+'px'; inner.style.height=nat[1]+'px'; inner.style.transform=`scale(${s})`; inner.appendChild(card);
 }
 let pvT;
+const SLIDE_NAMES={hero:'Anúncio',benefit:'Benefícios',tech:'Diferencial',teaser:'Teaser',faq:'Pergunta frequente',cta:'Agendamento'};
 function refreshPreview(){
   clearTimeout(pvT); pvT=setTimeout(()=>{
     if(!S.piezo) return;
-    const p=PIEZOS[S.piezo]; const kind=S.prev; const d=kind==='feed'?p.feed[0]:p.story[0];
-    const card=makeCard(kind,d,0);
-    const w=window.innerWidth<=1000?Math.min(420,window.innerWidth-80):(kind==='feed'?396:236);
+    const p=PIEZOS[S.piezo]; const kind=S.prev; const list=kind==='feed'?p.feed:p.story;
+    let i=S.pv[kind]; if(i>=list.length) i=S.pv[kind]=0;
+    const d=list[i]; const card=makeCard(kind,d,i);
+    const narrow=window.innerWidth<=1000;
+    const w=narrow?(kind==='feed'?Math.min(440,window.innerWidth-90):Math.min(260,window.innerWidth-120)):(kind==='feed'?424:262);
     mountScaled($('pframe'),$('pinner'),card,w);
-  },60);
+    const dots=$('pdots'); dots.innerHTML='';
+    list.forEach((x,k)=>{const b=document.createElement('button');b.type='button';b.className=k===i?'sel':'';b.title=SLIDE_NAMES[x.v]||('Arte '+(k+1));b.setAttribute('aria-label',b.title);b.onclick=()=>{S.pv[kind]=k;refreshPreview()};dots.appendChild(b)});
+    $('pcap').textContent=`${kind==='feed'?'Feed':'Story'} ${i+1} de ${list.length} · ${SLIDE_NAMES[d.v]||''}`;
+  },50);
 }
+function stepPreview(dir){ const p=PIEZOS[S.piezo]; if(!p) return; const n=(S.prev==='feed'?p.feed:p.story).length; S.pv[S.prev]=(S.pv[S.prev]+dir+n)%n; refreshPreview(); }
+$('pvp').onclick=()=>stepPreview(-1); $('pvn').onclick=()=>stepPreview(1);
+$('pvall').onclick=async()=>{ await prepPlates(); openLB(0,specs()); };
+document.addEventListener('keydown',e=>{ if($('lb').classList.contains('on')||!$('screen2').classList.contains('on')) return; if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return; if(e.key==='ArrowLeft') stepPreview(-1); if(e.key==='ArrowRight') stepPreview(1); });
+function specs(){ const p=PIEZOS[S.piezo]; const nm=p.name.replace(/\s/g,'');
+  return [...p.feed.map((d,i)=>({kind:'feed',d,i,fname:`${nm}_feed_${i+1}.png`})),...p.story.map((d,i)=>({kind:'story',d,i,fname:`${nm}_story_${i+1}.png`}))]; }
 $('ptabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.prev=b.dataset.k;[...$('ptabs').children].forEach(x=>x.classList.toggle('sel',x===b));refreshPreview()};
 
 /* ============================================================
@@ -805,38 +771,25 @@ function readLogo(file){
   const r=new FileReader();
   r.onload=ev=>{const im=new Image();im.onload=()=>{
       if(!im.naturalWidth){toast('Não foi possível ler essa imagem');return}
-      S.raw=im; S.bgColor=null; S.skipRemoval=false; S.inner=false; $('inner').checked=false;
-      drop.querySelector('b').textContent='Trocar logo'; drop.querySelector('span').textContent=file.name;
-      processLogo();
+      S.raw=im; drop.querySelector('b').textContent='Trocar logo'; drop.querySelector('span').textContent=file.name;
+      processLogo(file.name);
     };
     im.onerror=()=>toast('Não foi possível ler essa imagem'); im.src=ev.target.result;};
   r.readAsDataURL(file);
 }
-$('tol').oninput=e=>{S.tol=+e.target.value;S.skipRemoval=false;reprocessSoon()};
-$('soft').oninput=e=>{S.soft=+e.target.value;S.skipRemoval=false;reprocessSoon()};
-$('inner').onchange=e=>{S.inner=e.target.checked;S.skipRemoval=false;processLogo()};
-$('rawbtn').onclick=()=>{S.skipRemoval=true;processLogo()};
-$('lorig').onclick=e=>{ // conta-gotas: clique no fundo
-  const im=$('lorig').querySelector('img'); if(!im) return; const r=im.getBoundingClientRect();
-  const x=Math.floor((e.clientX-r.left)/r.width*S.raw.naturalWidth), y=Math.floor((e.clientY-r.top)/r.height*S.raw.naturalHeight);
-  if(x<0||y<0||x>=S.raw.naturalWidth||y>=S.raw.naturalHeight) return;
-  const c=document.createElement('canvas');c.width=c.height=1;c.getContext('2d').drawImage(S.raw,x,y,1,1,0,0,1,1);
-  const px=c.getContext('2d').getImageData(0,0,1,1).data; S.bgColor=[px[0],px[1],px[2]]; S.skipRemoval=false; processLogo(); toast('Cor do fundo atualizada');
-};
-$('dlLogo').onclick=()=>{ if(!S.cut) return; S.cut.toBlob(b=>saveBlob(b,'logo-sem-fundo.png'),'image/png') };
+$('segBox').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.boxMode=b.dataset.v;[...$('segBox').children].forEach(x=>x.classList.toggle('sel',x===b));refreshLogoUI()};
 function renderStyles(){
   const g=$('styleGrid'); g.innerHTML='';
   Object.entries(STYLES).forEach(([k,v])=>{
     const b=document.createElement('button'); b.type='button'; b.className='sty'+(S.style===k?' sel':'');
     const bg=v.plate&&ASSETS.plates&&ASSETS.plates[v.plate]?`url(${plateURL(v.plate,'feed')})`:v.sw;
     b.innerHTML=`<div class="sw2" style="background-image:${bg}"></div><b>${v.name}</b>`;
-    b.onclick=async()=>{S.style=k;S.theme=v.theme;await prepPlates();renderStyles();if(S.cut){updateLogoModeUI()}refreshPreview()};
+    b.onclick=async()=>{S.style=k;S.theme=v.theme;await prepPlates();renderStyles();refreshPreview()};
     g.appendChild(b);
   });
   $('styleName').textContent=STYLES[S.style].theme==='dark'?'fundo escuro':'fundo claro';
 }
 renderStyles();
-$('segLogo').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.logoMode=b.dataset.v;[...$('segLogo').children].forEach(x=>x.classList.toggle('sel',x===b));updateLogoModeUI();refreshPreview()};
 $('handle').oninput=e=>{let v=e.target.value.trim(); if(v&&v[0]!=='@') v='@'+v; S.handle=v;refreshPreview()};
 $('phone').oninput=e=>{S.phone=e.target.value.trim();refreshPreview()};
 renderSwatches();
@@ -862,7 +815,7 @@ function addItem(kind,d,i,box){
   const rec={kind,d,i,fname}; ITEMS.push(rec);
   const fit=()=>{const w=thumb.clientWidth||200; const card=thumb.querySelector('.card')||makeCard(kind,d,i); mountScaled(thumb,inner,card,w); thumb.style.width='100%'; thumb.style.height=Math.round(w*(kind==='story'?1920:1080)/1080)+'px'};
   requestAnimationFrame(fit); rec.fit=fit;
-  thumb.onclick=()=>openLB(ITEMS.indexOf(rec)); btn.onclick=()=>exportOne(rec);
+  thumb.onclick=()=>openLB(ITEMS.indexOf(rec),ITEMS); btn.onclick=()=>exportOne(rec);
 }
 window.addEventListener('resize',()=>{ITEMS.forEach(r=>r.fit&&r.fit())});
 
@@ -879,18 +832,18 @@ async function downloadZip(){
   const b=$('dlAll'); b.disabled=true; const zip=new JSZip();
   try{
     for(let i=0;i<ITEMS.length;i++){toast(`Gerando arte ${i+1} de ${ITEMS.length}…`);zip.file(ITEMS[i].fname,await renderPNG(ITEMS[i]))}
-    if(S.cut){zip.file('logo-sem-fundo.png',await new Promise(r=>S.cut.toBlob(r,'image/png')))}
     const blob=await zip.generateAsync({type:'blob'}); saveBlob(blob,`artes-piezo-${PIEZOS[S.piezo].name.replace(/\s/g,'').toLowerCase()}.zip`); toast('Tudo pronto! Confira os Downloads ✓');
   }catch(e){console.error(e);toast('Algo deu errado ao gerar. Tente baixar uma por uma.')}
   b.disabled=false;
 }
 /* lightbox */
-let lbI=0;
-function openLB(i){lbI=(i+ITEMS.length)%ITEMS.length;const r=ITEMS[lbI];const card=makeCard(r.kind,r.d,r.i);
-  const maxH=window.innerHeight-130, maxW=window.innerWidth-120; const nat=r.kind==='story'?[1080,1920]:[1080,1080];
-  const s=Math.min(maxW/nat[0],maxH/nat[1]); mountScaled($('lbframe'),$('lbinner'),card,Math.round(nat[0]*s)); $('lb').classList.add('on')}
+let lbI=0, lbList=[];
+function openLB(i,list){ if(list) lbList=list; else if(!lbList.length) lbList=ITEMS; lbI=(i+lbList.length)%lbList.length; const r=lbList[lbI]; const card=makeCard(r.kind,r.d,r.i);
+  const maxH=window.innerHeight-150, maxW=window.innerWidth-130; const nat=r.kind==='story'?[1080,1920]:[1080,1080];
+  const k=Math.min(maxW/nat[0],maxH/nat[1]); mountScaled($('lbframe'),$('lbinner'),card,Math.round(nat[0]*k));
+  $('lbcap').textContent=`${lbI+1} / ${lbList.length} · ${r.kind==='feed'?'Feed':'Story'} · ${SLIDE_NAMES[r.d.v]||''}`; $('lb').classList.add('on'); }
 $('lbx').onclick=()=>$('lb').classList.remove('on'); $('lb').onclick=e=>{if(e.target===$('lb'))$('lb').classList.remove('on')};
-$('lbp').onclick=()=>openLB(lbI-1); $('lbn').onclick=()=>openLB(lbI+1); $('lbdl').onclick=()=>exportOne(ITEMS[lbI]);
+$('lbp').onclick=()=>openLB(lbI-1); $('lbn').onclick=()=>openLB(lbI+1); $('lbdl').onclick=()=>exportOne(lbList[lbI]);
 document.addEventListener('keydown',e=>{if(!$('lb').classList.contains('on'))return;if(e.key==='Escape')$('lb').classList.remove('on');if(e.key==='ArrowLeft')openLB(lbI-1);if(e.key==='ArrowRight')openLB(lbI+1)});
 
 prepareBrandAssets();
