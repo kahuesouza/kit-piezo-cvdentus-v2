@@ -233,6 +233,8 @@ body.s2 .actionbar{display:block;animation:rise .5s var(--ease)}
 .ig.story .ig-prog{display:flex}
 .ig-prog i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.35);overflow:hidden}
 .ig-prog i.on{background:#fff}
+.pvid{display:block;border-radius:26px;background:#061330;object-fit:cover;margin:0 auto}
+.ig:not(.story) .pvid{border-radius:0}
 .pvbar{display:flex;align-items:center;gap:14px;justify-content:center}
 .pvnav{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:var(--navy);font-size:20px;box-shadow:0 6px 14px rgba(10,31,68,.16);transition:.3s var(--ease)}
 .pvnav:hover{background:var(--navy);color:#fff;transform:scale(1.1)}
@@ -266,6 +268,9 @@ body.s2 .actionbar{display:block;animation:rise .5s var(--ease)}
 .item .dl:hover{background:var(--navy);color:#fff}
 .item .dl.sec{background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
 .item .dl.sec:hover{background:var(--royal);color:#fff;box-shadow:none}
+.mob{display:none}body.mobile .mob{display:inline-flex}body.mobile .desk{display:none}
+.warmst{width:100%;text-align:center;font-size:12px;font-weight:700;color:var(--mute);padding:2px 0}
+.warmst:empty{display:none}
 .stickybar{position:sticky;bottom:16px;margin-top:40px;display:flex;justify-content:center;z-index:5}
 .stickybar .in{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:20px;padding:10px;box-shadow:var(--sh2)}
 
@@ -455,20 +460,21 @@ body.s2 .actionbar{display:block;animation:rise .5s var(--ease)}
 
       <aside class="live">
         <div class="stagebox">
-          <div class="tabs" id="ptabs"><button class="sel" data-k="feed" type="button">Feed</button><button data-k="story" type="button">Story</button></div>
+          <div class="tabs" id="ptabs"><button class="sel" data-k="feed" type="button">Feed</button><button data-k="story" type="button">Story</button><button data-k="reel" type="button">Reels</button></div>
           <div class="ig feed" id="ig">
             <div class="ig-card" id="igcard">
               <div class="ig-prog" id="igprog"></div>
               <div class="ig-top"><div class="ig-av" id="igav"><b>C</b></div><div class="ig-id"><b id="igname">seuconsultorio</b><span id="igsub">Pré-visualização</span></div><span class="ig-dots">···</span></div>
               <div class="frame" id="pframe"><div class="inner" id="pinner"></div></div>
+              <video id="pvid" class="pvid" controls playsinline preload="metadata" style="display:none"></video>
               <div class="ig-act"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 1 1 21 11.5z"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3 11 14M22 3l-7 19-4-8-8-4z"/></svg><span class="sp"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
               <div class="ig-cap"><b id="igname2">seuconsultorio</b> <span id="igcap1"></span></div>
             </div>
           </div>
-          <div class="pvbar"><button class="pvnav" id="pvp" type="button" aria-label="Arte anterior">‹</button><div class="dots" id="pdots"></div><button class="pvnav" id="pvn" type="button" aria-label="Próxima arte">›</button></div>
+          <div class="pvbar" id="pvbar"><button class="pvnav" id="pvp" type="button" aria-label="Arte anterior">‹</button><div class="dots" id="pdots"></div><button class="pvnav" id="pvn" type="button" aria-label="Próxima arte">›</button></div>
           <div class="cap" id="pcap">Pré-visualização ao vivo</div>
           <div class="capbox" id="capbox">
-            <div class="capbox-h"><b>Legenda do post</b><button class="mini" id="capcopy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+            <div class="capbox-h"><b id="caplab">Legenda do post</b><span style="display:flex;gap:8px"><a class="mini" id="pvdl" href="#" style="display:none;text-decoration:none">Baixar Reels</a><button class="mini" id="capcopy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></span></div>
             <textarea id="captext" aria-label="Legenda do post" spellcheck="false"></textarea>
           </div>
           <button class="btn gho" id="pvall" type="button">Ver todas as artes em tela cheia</button>
@@ -490,9 +496,13 @@ body.s2 .actionbar{display:block;animation:rise .5s var(--ease)}
     <div class="seclabel" id="labReel">Reels · 1080 × 1920 · trilha sonora, sem logo do cliente</div>
     <div class="reelcard" id="galReel"></div>
     <div class="stickybar"><div class="in">
-      <button class="btn pri" type="button" id="dlAll" onclick="downloadZip()">Baixar tudo (.zip)</button>
+      <button class="btn pri desk" type="button" id="dlAll" onclick="downloadZip()">Baixar tudo (.zip)</button>
+      <button class="btn pri mob" type="button" id="shFeed" onclick="shareGroup('feed')">Salvar posts do feed</button>
+      <button class="btn pri mob" type="button" id="shStory" onclick="shareGroup('story')">Salvar stories</button>
+      <button class="btn pri mob" type="button" id="shReel" onclick="shareReel()">Salvar Reels</button>
       <button class="btn gho" type="button" id="capAll">Copiar todas as legendas</button>
-      <button class="btn gho" type="button" onclick="goto(1)">Outro piezo</button>
+      <button class="btn gho desk" type="button" onclick="goto(1)">Outro piezo</button>
+      <div id="warmst" class="warmst"></div>
     </div></div>
   </section>
 
@@ -525,13 +535,15 @@ const CVD_CAP = '💎 Você sabia que as pontas usadas no seu tratamento levam d
 const DLC_CHIPS = ['Filme de diamante','Até 5× mais durável*','Fácil de higienizar'];
 
 const REELS = {
-  dentsurg:{file:'reels/dentsurg.mp4', poster:'reels/dentsurg.jpg', dur:'27 s',
+  dentsurg:{dur:'27 s',
     cap:'✨ Alta tecnologia por aqui!\n\nConheça o Piezo DentSurg Pro: cirurgia com mais segurança, corte preciso e cuidado com nervos e membranas.\n\n💎 Nas pontas clínicas, diamante CVD feito em laboratório, átomo por átomo.\n🔬 Nas pontas cirúrgicas, o revestimento DLC: um filme de diamante com menos atrito e menos calor.\n\nTudo isso para um procedimento mais seguro e confortável para você.'},
-  optymus:{file:'reels/optymus.mp4', poster:'reels/optymus.jpg', dur:'22 s',
+  optymus:{dur:'22 s',
     cap:'✨ Tem tecnologia nova por aqui!\n\nConheça o Piezo Optymus: canal e limpeza com mais conforto, com uma tecnologia que se ajusta ao seu tratamento em tempo real.\n\n💎 As pontas levam diamante CVD, feito em laboratório, que mantém a precisão consulta após consulta.\n\n❓ Vai doer? O nosso objetivo é que você mal perceba. Em muitos casos, o tratamento pode ser feito sem anestesia, e o seu dentista avalia o seu caso.'},
-  clinical:{file:'reels/clinical.mp4', poster:'reels/clinical.jpg', dur:'22 s',
+  clinical:{dur:'22 s',
     cap:'✨ Tem tecnologia nova por aqui!\n\nConheça o Piezo Clinical Plus: do preparo à limpeza, um só cuidado. Ele reconhece cada tecido e ajusta o cuidado sozinho, em cada etapa do seu tratamento.\n\n💎 As pontas levam diamante CVD, feito em laboratório, que mantém a precisão consulta após consulta.\n\n❓ Vai doer? O nosso objetivo é que você mal perceba. Em muitos casos, o tratamento pode ser feito sem anestesia, e o seu dentista avalia o seu caso.'}
 };
+const reelBase=()=>`reels/${S.piezo}__${S.style}`;
+const reelURL=()=>reelBase()+'.mp4', reelPoster=()=>reelBase()+'.jpg';
 const PIEZOS = {
   optymus:{
     tip:true, name:'Optymus', chip:'Endodontia + Profilaxia', tall:true,
@@ -931,20 +943,34 @@ function updateSummary(){
   $('sumTitle').textContent=`Piezo ${p.name} · estilo ${STYLES[S.style].name}`;
   $('sumSub').textContent=S.logoURL?`${p.feed.length} posts de feed com legenda + ${p.story.length} stories prontos`:'Envie a logo do consultório para continuar';
   $('toGallery').textContent=`Gerar as ${nArts()} artes →`;
-  $('ptabs').children[0].textContent=`Feed · ${p.feed.length}`; $('ptabs').children[1].textContent=`Story · ${p.story.length}`;
+  $('ptabs').children[0].textContent=`Feed · ${p.feed.length}`; $('ptabs').children[1].textContent=`Story · ${p.story.length}`; $('ptabs').children[2].textContent='Reels · 1';
 }
 let pvT;
 function refreshPreview(){
   clearTimeout(pvT); pvT=setTimeout(()=>{
     if(!S.piezo) return;
-    const p=PIEZOS[S.piezo]; const kind=S.prev; const list=kind==='feed'?p.feed:p.story;
+    const p=PIEZOS[S.piezo]; const kind=S.prev; const ig=$('ig'); const vid=$('pvid');
+    $('igname').textContent=igName(); $('igname2').textContent=igName(); setAvatar();
+    if(kind==='reel'){
+      const R=REELS[S.piezo]; ig.className='ig story'; $('pframe').style.display='none'; vid.style.display='block';
+      const avail0=ig.clientWidth||440; const w0=Math.min(280,Math.max(190,Math.round(avail0-70)));
+      vid.style.width=w0+'px'; vid.style.height=Math.round(w0*16/9)+'px';
+      const vk=S.piezo+'|'+S.style; if(vid.getAttribute('data-k')!==vk){ vid.setAttribute('data-k',vk); vid.poster=reelPoster(); vid.src=reelURL(); }
+      $('igsub').textContent='Reels · áudio original'; $('igprog').innerHTML='';
+      $('pvbar').style.display='none'; $('capbox').style.display='block'; $('caplab').textContent='Legenda do Reels';
+      const ta0=$('captext'); if(document.activeElement!==ta0) ta0.value=captionFor({cap:R.cap});
+      const dl=$('pvdl'); dl.style.display='inline-flex'; dl.href=reelURL(); dl.setAttribute('download','Reels_'+p.name.replace(/\s/g,'')+'.mp4'); dl.textContent=IS_MOBILE?'Salvar Reels':'Baixar Reels';
+      $('pcap').textContent=`Reels · ${R.dur} · estilo ${STYLES[S.style].name} · trilha sonora, sem logo do cliente. Baixe só se quiser.`;
+      updateSummary(); return;
+    }
+    try{vid.pause()}catch(e){} vid.style.display='none'; $('pframe').style.display=''; $('pvbar').style.display=''; $('pvdl').style.display='none'; $('caplab').textContent='Legenda do post';
+    const list=kind==='feed'?p.feed:p.story;
     let i=S.pv[kind]; if(i>=list.length) i=S.pv[kind]=0;
     const d=list[i]; const card=makeCard(kind,d,i);
-    const ig=$('ig'); ig.className='ig '+kind;
+    ig.className='ig '+kind;
     const avail=ig.clientWidth||440;
     const w=kind==='feed'?Math.max(240,Math.round(avail)):Math.min(280,Math.max(190,Math.round(avail-70)));
     mountScaled($('pframe'),$('pinner'),card,w);
-    $('igname').textContent=igName(); $('igname2').textContent=igName(); setAvatar();
     $('igsub').textContent=kind==='feed'?'Pré-visualização':'agora';
     const cap=captionFor(d); $('igcap1').textContent=(cap.split('\n').filter(Boolean)[0]||'');
     $('capbox').style.display=(kind==='feed'&&cap)?'block':'none';
@@ -956,7 +982,7 @@ function refreshPreview(){
     updateSummary();
   },50);
 }
-function stepPreview(dir){ const p=PIEZOS[S.piezo]; if(!p) return; const n=(S.prev==='feed'?p.feed:p.story).length; S.pv[S.prev]=(S.pv[S.prev]+dir+n)%n; refreshPreview(); }
+function stepPreview(dir){ const p=PIEZOS[S.piezo]; if(!p||S.prev==='reel') return; const n=(S.prev==='feed'?p.feed:p.story).length; S.pv[S.prev]=(S.pv[S.prev]+dir+n)%n; refreshPreview(); }
 $('pvp').onclick=()=>stepPreview(-1); $('pvn').onclick=()=>stepPreview(1);
 $('pvall').onclick=async()=>{ await prepPlates(); openLB(0,specs()); };
 document.addEventListener('keydown',e=>{ if($('lb').classList.contains('on')||!$('screen2').classList.contains('on')) return; if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return; if(e.key==='ArrowLeft') stepPreview(-1); if(e.key==='ArrowRight') stepPreview(1); });
@@ -970,6 +996,7 @@ async function copyText(t,msg){
   toast(msg||'Copiado ✓');
 }
 $('capcopy').onclick=()=>copyText($('captext').value,'Legenda copiada ✓');
+$('pvdl').onclick=e=>{ if(IS_MOBILE){ e.preventDefault(); shareReel(); } };
 
 /* ============================================================
    NAVEGAÇÃO / PASSO 1
@@ -1045,6 +1072,33 @@ renderSwatches();
 /* ============================================================
    PASSO 3: galeria, lightbox e download
    ============================================================ */
+const IS_MOBILE=(window.matchMedia&&matchMedia('(pointer:coarse)').matches&&Math.min(screen.width,screen.height)<900)||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+let CAN_SHARE=false; try{ CAN_SHARE=!!(navigator.canShare&&navigator.canShare({files:[new File(['x'],'a.png',{type:'image/png'})]})); }catch(e){}
+if(IS_MOBILE) document.body.classList.add('mobile');
+const RCACHE=new Map(); let REELBLOB={};
+async function pngFor(rec){ if(RCACHE.has(rec.fname)) return RCACHE.get(rec.fname); const b=await renderPNG(rec); RCACHE.set(rec.fname,b); return b; }
+async function reelFile(){ const k=S.piezo+'|'+S.style; if(!REELBLOB[k]){ const rv=await fetch(reelURL()); REELBLOB[k]=await rv.blob(); } return new File([REELBLOB[k]],'Reels_'+PIEZOS[S.piezo].name.replace(/\s/g,'')+'_'+STYLES[S.style].name+'.mp4',{type:'video/mp4'}); }
+async function shareFiles(files,title){
+  if(!CAN_SHARE) return false;
+  try{ await navigator.share({files,title}); return true; }catch(e){ return !!(e&&e.name==='AbortError'); }
+}
+async function saveOne(rec){ toast('Preparando a imagem…'); const b=await pngFor(rec); const f=new File([b],rec.fname,{type:'image/png'}); if(await shareFiles([f],rec.fname)) return; saveBlob(b,rec.fname); toast('Imagem baixada ✓'); }
+async function shareGroup(kind){
+  const list=ITEMS.filter(r=>r.kind===kind); toast('Preparando '+list.length+' imagens…');
+  const files=[]; for(const r of list){ files.push(new File([await pngFor(r)],r.fname,{type:'image/png'})); }
+  if(await shareFiles(files,'Artes CVDentus')) return;
+  toast('Seu celular não deixa salvar várias de uma vez. Use o botão "Salvar imagem" em cada arte.');
+}
+async function shareReel(){
+  toast('Preparando o Reels…'); let f; try{ f=await reelFile(); }catch(e){ location.href=reelURL(); return; }
+  if(await shareFiles([f],f.name)) return; saveBlob(f,f.name); toast('Reels baixado ✓');
+}
+async function warmCache(){
+  if(!IS_MOBILE) return; const st=$('warmst'); const list=[...ITEMS]; let n=0;
+  try{ reelFile(); }catch(e){}
+  for(const r of list){ if(!document.body.contains(r.ta||document.body)) {} try{ await pngFor(r); }catch(e){} n++; if(st) st.textContent=`Preparando imagens para salvar… ${n}/${list.length}`; await new Promise(res=>setTimeout(res,30)); }
+  if(st) st.textContent='Tudo pronto para salvar no celular ✓';
+}
 let ITEMS=[];
 async function buildGallery(){
   await prepPlates();
@@ -1052,8 +1106,10 @@ async function buildGallery(){
   $('galMeta').textContent=`Piezo ${p.name} · ${p.feed.length} posts de feed com legenda e ${p.story.length} stories · estilo ${STYLES[S.style].name}`;
   const gf=$('galFeed'),gs=$('galStory'); gf.innerHTML='';gs.innerHTML='';
   p.feed.forEach((d,i)=>addItem('feed',d,i,gf)); p.story.forEach((d,i)=>addItem('story',d,i,gs));
-  buildReel();
-  goto(3);
+  buildReel(); RCACHE.clear();
+  $('shFeed').textContent=`Salvar posts do feed (${p.feed.length})`; $('shStory').textContent=`Salvar stories (${p.story.length})`;
+  $('warmst').textContent=IS_MOBILE?'Preparando imagens para salvar…':'';
+  goto(3); setTimeout(warmCache,600);
 }
 function addItem(kind,d,i,box){
   const fname=`${PIEZOS[S.piezo].name.replace(/\s/g,'')}_${kind}_${i+1}.png`;
@@ -1062,7 +1118,7 @@ function addItem(kind,d,i,box){
   const nm=document.createElement('div'); nm.className='nm'; nm.innerHTML=`<span>${kind==='feed'?'Post':'Story'} ${i+1} · ${esc(d.nm||'')}</span><small>${kind==='feed'?'1080 × 1080':'1080 × 1920'}</small>`;
   item.appendChild(thumb); item.appendChild(nm);
   const rec={kind,d,i,fname}; ITEMS.push(rec);
-  const btn=document.createElement('button'); btn.className='dl'; btn.type='button'; btn.textContent='Baixar PNG'; btn.onclick=()=>exportOne(rec);
+  const btn=document.createElement('button'); btn.className='dl'; btn.type='button'; btn.textContent=IS_MOBILE?'Salvar imagem':'Baixar PNG'; btn.onclick=()=>exportOne(rec);
   if(kind==='feed'&&d.cap){
     const ta=document.createElement('textarea'); ta.value=captionFor(d); ta.spellcheck=false; ta.setAttribute('aria-label','Legenda do post '+(i+1)); rec.ta=ta; item.appendChild(ta);
     const row=document.createElement('div'); row.className='row2'; const cb=document.createElement('button'); cb.className='dl sec'; cb.type='button'; cb.textContent='Copiar legenda'; cb.onclick=()=>copyText(ta.value,'Legenda copiada ✓');
@@ -1076,12 +1132,13 @@ function addItem(kind,d,i,box){
 function buildReel(){
   const p=PIEZOS[S.piezo], R=REELS[S.piezo], box=$('galReel'); box.innerHTML='';
   const cap=captionFor({cap:R.cap});
-  box.innerHTML=`<video controls playsinline preload="metadata" poster="${R.poster}" src="${R.file}"></video>
+  box.innerHTML=`<video controls playsinline preload="metadata" poster="${reelPoster()}" src="${reelURL()}"></video>
     <div class="rinfo"><div><h3>Reels do Piezo <em>${esc(p.name)}</em></h3><p>Todos os stories em sequência, com trilha sonora e sem locução. Este vídeo não leva a logo do consultório: é só baixar e publicar. A legenda abaixo leva o seu nome, o @ e o WhatsApp.</p></div>
     <div class="tags"><span>1080 × 1920</span><span>${R.dur}</span><span>Só trilha sonora</span><span>Sem logo do cliente</span></div>
     <textarea id="reelcap" spellcheck="false" aria-label="Legenda do Reels">${esc(cap)}</textarea>
-    <div class="row2"><a class="dl" id="reeldl" href="${R.file}" download="Reels_${p.name.replace(/\s/g,'')}.mp4" style="text-decoration:none;display:inline-block">Baixar Reels (.mp4)</a><button class="dl sec" id="reelcopy" type="button">Copiar legenda</button></div></div>`;
+    <div class="row2"><a class="dl" id="reeldl" href="${reelURL()}" download="Reels_${p.name.replace(/\s/g,'')}_${STYLES[S.style].name}.mp4" style="text-decoration:none;display:inline-block">${IS_MOBILE?'Salvar / compartilhar Reels':'Baixar Reels (.mp4)'}</a><button class="dl sec" id="reelcopy" type="button">Copiar legenda</button></div></div>`;
   $('reelcopy').onclick=()=>copyText($('reelcap').value,'Legenda copiada ✓');
+  if(IS_MOBILE) $('reeldl').onclick=e=>{ e.preventDefault(); shareReel(); };
 }
 window.addEventListener('resize',()=>{ITEMS.forEach(r=>r.fit&&r.fit())});
 function allCaptions(){ return ITEMS.filter(r=>r.ta).map(r=>`POST ${r.i+1} · ${r.d.nm}\n\n${r.ta.value}`).join('\n\n------------------------------\n\n'); }
@@ -1095,13 +1152,13 @@ async function renderPNG(rec){
   } finally { off.removeChild(card) }
 }
 function saveBlob(b,name){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000)}
-async function exportOne(rec){toast('Gerando a imagem…');try{saveBlob(await renderPNG(rec),rec.fname);toast('Baixado ✓')}catch(e){console.error(e);toast('Não foi possível gerar. Tente novamente.')}}
+async function exportOne(rec){ if(IS_MOBILE) return saveOne(rec); toast('Gerando a imagem…');try{saveBlob(await renderPNG(rec),rec.fname);toast('Baixado ✓')}catch(e){console.error(e);toast('Não foi possível gerar. Tente novamente.')}}
 async function downloadZip(){
   const b=$('dlAll'); b.disabled=true; const zip=new JSZip();
   try{
     for(let i=0;i<ITEMS.length;i++){toast(`Gerando arte ${i+1} de ${ITEMS.length}…`);zip.file(ITEMS[i].fname,await renderPNG(ITEMS[i]))}
     const caps=allCaptions()+(REELS[S.piezo]?'\n\n------------------------------\n\nREELS\n\n'+($('reelcap')?$('reelcap').value:''):''); if(caps) zip.file('legendas.txt',caps);
-    try{ toast('Juntando o Reels…'); const rv=await fetch(REELS[S.piezo].file); if(rv.ok) zip.file('Reels_'+PIEZOS[S.piezo].name.replace(/\s/g,'')+'.mp4',await rv.blob()); }catch(e){}
+    try{ toast('Juntando o Reels…'); const rv=await fetch(reelURL()); if(rv.ok) zip.file('Reels_'+PIEZOS[S.piezo].name.replace(/\s/g,'')+'_'+STYLES[S.style].name+'.mp4',await rv.blob()); }catch(e){}
     const blob=await zip.generateAsync({type:'blob'}); saveBlob(blob,`artes-piezo-${PIEZOS[S.piezo].name.replace(/\s/g,'').toLowerCase()}.zip`); toast('Tudo pronto! Confira os Downloads ✓');
   }catch(e){console.error(e);toast('Algo deu errado ao gerar. Tente baixar uma por uma.')}
   b.disabled=false;
