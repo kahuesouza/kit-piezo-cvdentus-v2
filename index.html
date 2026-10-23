@@ -504,7 +504,7 @@ const img = (b,t='webp')=>`data:image/${t};base64,${b}`;
 const CVD_CHIPS = ['Diamante CVD','Até 30× mais durável*','Ação precisa'];
 const CVD_DISC = '*Dado do fabricante, em comparação a pontas convencionais.';
 const CVD_CAP = '💎 Você sabia que as pontas usadas no seu tratamento levam diamante?\n\nÉ o diamante CVD: sintetizado em laboratório, átomo por átomo. Ele resiste ao desgaste e mantém a precisão da primeira à última consulta.\n\n✔ Até 30x mais durável que pontas convencionais*\n✔ Ação precisa e delicada\n\n*Dado do fabricante.';
-const DLC_CHIPS = ['Titânio aeronáutico','Até 5× mais durável*','Fácil de higienizar'];
+const DLC_CHIPS = ['Filme de diamante','Até 5× mais durável*','Fácil de higienizar'];
 
 const PIEZOS = {
   optymus:{
@@ -570,8 +570,8 @@ const PIEZOS = {
         ['Recuperação tranquila','Um corte delicado pode significar menos trauma.']],
        cap:'Por que o Piezo DentSurg Pro faz diferença na cirurgia? 👇\n\n1️⃣ Corte seletivo: age no osso e respeita os tecidos delicados ao redor.\n2️⃣ Mais segurança: cuidado extra perto de nervos e membranas.\n3️⃣ Recuperação tranquila: um corte delicado pode significar menos trauma.'},
       {v:'tech', nm:'Tecnologia CVD', eyebrow:'Tecnologia CVD · pontas clínicas', title:'Diamante de laboratório, *átomo por átomo.*', sub:'Nas pontas clínicas, diamante CVD feito em laboratório: resiste ao desgaste e mantém a precisão consulta após consulta.', chips:CVD_CHIPS, disc:CVD_DISC, badge:'cvd', badgeLabel:'Diamante CVD', cap:CVD_CAP},
-      {v:'tech', nm:'Tecnologia DLC', eyebrow:'Tecnologia DLC · pontas cirúrgicas', title:'Ponta cirúrgica com *revestimento DLC.*', sub:'Filme de diamante sobre titânio aeronáutico: superfície muito lisa, com menos atrito e menos calor na cirurgia.', chips:DLC_CHIPS, disc:'*Dado do fabricante.', badge:'dlc', badgeLabel:'Revestimento DLC', plain:true,
-       cap:'🔬 Cirurgia com tecnologia de ponta: conheça o DLC.\n\nAs pontas cirúrgicas do Piezo DentSurg Pro são feitas de titânio aeronáutico e recebem um filme de diamante (DLC): uma superfície muito lisa, com baixíssimo atrito.\n\n✔ Menos atrito e menos calor durante o procedimento\n✔ Superfície mais fácil de higienizar\n✔ Até 5x mais durável*\n\n*Dado do fabricante.\n\nTudo para um procedimento mais seguro e confortável para você.'}
+      {v:'tech', nm:'Tecnologia DLC', eyebrow:'Tecnologia DLC · pontas cirúrgicas', title:'Ponta cirúrgica com *revestimento DLC.*', sub:'Filme de diamante (DLC) na ponta cirúrgica: superfície muito lisa, com menos atrito e menos calor na cirurgia.', chips:DLC_CHIPS, disc:'*Dado do fabricante.', badge:'dlc', badgeLabel:'Revestimento DLC', plain:true,
+       cap:'🔬 Cirurgia com tecnologia de ponta: conheça o DLC.\n\nAs pontas cirúrgicas do Piezo DentSurg Pro recebem um filme de diamante (DLC): uma superfície muito lisa, com baixíssimo atrito.\n\n✔ Menos atrito e menos calor durante o procedimento\n✔ Superfície mais fácil de higienizar\n✔ Até 5x mais durável*\n\n*Dado do fabricante.\n\nTudo para um procedimento mais seguro e confortável para você.'}
     ],
     story:[
       {v:'teaser', nm:'Teaser', eyebrow:'Alta tecnologia', title:'Chegou um novo *nível de precisão.*', sub:'Conheça o que investimos para você.'},
@@ -580,7 +580,7 @@ const PIEZOS = {
         ['Mais segurança','Cuidado extra com nervos e membranas.'],
         ['Recuperação tranquila','Um corte delicado pode significar menos trauma.']]},
       {v:'tech', nm:'Tecnologia CVD', eyebrow:'Tecnologia CVD · pontas clínicas', title:'Diamante de laboratório, *átomo por átomo.*', sub:'Nas pontas clínicas, diamante CVD feito em laboratório: resiste ao desgaste e mantém a precisão consulta após consulta.', chips:CVD_CHIPS, disc:CVD_DISC, badge:'cvd', badgeLabel:'Diamante CVD'},
-      {v:'tech', nm:'Tecnologia DLC', eyebrow:'Tecnologia DLC · pontas cirúrgicas', title:'Ponta cirúrgica com *revestimento DLC.*', sub:'Filme de diamante sobre titânio aeronáutico: superfície muito lisa, com menos atrito e menos calor na cirurgia.', chips:DLC_CHIPS, disc:'*Dado do fabricante.', badge:'dlc', badgeLabel:'Revestimento DLC', plain:true},
+      {v:'tech', nm:'Tecnologia DLC', eyebrow:'Tecnologia DLC · pontas cirúrgicas', title:'Ponta cirúrgica com *revestimento DLC.*', sub:'Filme de diamante (DLC) na ponta cirúrgica: superfície muito lisa, com menos atrito e menos calor na cirurgia.', chips:DLC_CHIPS, disc:'*Dado do fabricante.', badge:'dlc', badgeLabel:'Revestimento DLC', plain:true},
       {v:'faq', nm:'Pergunta frequente', eyebrow:'Pergunta frequente', q:'E a *recuperação?*', a:'Um corte mais delicado com os tecidos ao redor pode significar *menos trauma* e uma recuperação mais tranquila para você.', disc:'*Cada caso é avaliado pelo seu dentista e os resultados podem variar.'},
       {v:'cta', nm:'Agendamento', eyebrow:'Agende agora', title:'Tecnologia de ponta a serviço do *seu sorriso.*', sub:'Fale com a gente e conheça o seu tratamento.', btn:'Agende sua avaliação'}
     ]
@@ -588,12 +588,12 @@ const PIEZOS = {
 };
 
 const STYLES = {
-  navy:{name:'Navy',theme:'dark',plate:null,sw:'linear-gradient(165deg,#0B2250,#061330)'},
+  navy:{name:'Navy',theme:'dark',plate:null,minimal:true,sw:'radial-gradient(70% 60% at 70% 62%,#12306B 0%,#0A1F44 55%,#061330 100%)'},
   beam:{name:'Royal',theme:'dark',plate:'beam',shade:'dark'},
   diamond:{name:'Diamante',theme:'dark',plate:'diamond',shade:'dark'},
   clinic:{name:'Clínica',theme:'dark',plate:'clinic',shade:'dark'},
   editorial:{name:'Editorial',theme:'light',plate:'editorial',shade:'light'},
-  light:{name:'Claro',theme:'light',plate:null,sw:'linear-gradient(165deg,#FAFCFF,#DDE8F6)'}
+  light:{name:'Claro',theme:'light',plate:null,minimal:true,sw:'radial-gradient(70% 60% at 70% 62%,#FFFFFF 0%,#F2F6FC 55%,#E6EDF8 100%)'}
 };
 const MODEL_LOGO = {optymus:ASSETS.optymus_logo, clinical:ASSETS.clinical_logo, dentsurg:ASSETS.dentsurg_logo};
 
@@ -750,6 +750,12 @@ function product(p,key,box,opt={}){
   const A=ASSETS[opt.alt&&ASSETS[key+'_b']?key+'_b':key]; const s=Math.min(box.maxW/A.w, box.maxH/A.h); const W=A.w*s, H=A.h*s;
   const left=box.cx-W/2, top=box.bottom-H; const dark=S.theme==='dark'; const th=themeColors(p);
   let h='';
+  const ST0=STYLES[S.style]||STYLES.navy;
+  if(ST0.minimal){
+    const cy=box.bottom-H*0.52, R=Math.max(W,H)*0.64; const ln=dark?'rgba(255,255,255,':'rgba(10,31,68,';
+    h+=`<div class="abs" style="left:${box.cx-R}px;top:${cy-R}px;width:${R*2}px;height:${R*2}px;border-radius:50%;border:2px solid ${ln}.11)"></div>`;
+    h+=`<div class="abs" style="left:${box.cx-R*1.42}px;top:${cy-R*1.42}px;width:${R*2.84}px;height:${R*2.84}px;border-radius:50%;border:2px solid ${ln}.06)"></div>`;
+  }
   // brilho atrás do equipamento
   const gw=W*1.55, gh=H*1.5;
   h+=`<div class="abs" style="left:${box.cx-gw/2}px;top:${box.bottom-H/2-gh/2}px;width:${gw}px;height:${gh}px;background:radial-gradient(ellipse at center,${th.glow}${dark?'66':'30'} 0%,transparent 66%)"></div>`;
@@ -800,10 +806,8 @@ function makeCard(kind,d,idx){
       ? `<div class="bgl" style="background:linear-gradient(${story?'180deg':'100deg'},rgba(3,10,30,${ST.plate==='clinic'?.72:.58}) 0%,rgba(3,10,30,${ST.plate==='clinic'?.4:.3}) ${story?'48%':'72%'},rgba(3,10,30,${story?.42:.1}) 100%)"></div>`
       : `<div class="bgl" style="background:linear-gradient(${story?'180deg':'100deg'},rgba(244,248,254,.92) 0%,rgba(244,248,254,.82) 58%,rgba(244,248,254,.05) 92%)"></div>`+(story?`<div class="bgl" style="background:linear-gradient(0deg,rgba(244,248,254,.9) 0%,rgba(244,248,254,.7) 12%,rgba(244,248,254,0) 26%)"></div>`:'');
   }else{
-    h+=`<div class="bgl" style="background:${dark?'linear-gradient(165deg,#0B2250 0%,#0A1F44 38%,#061330 100%)':'linear-gradient(165deg,#FAFCFF 0%,#EDF3FB 45%,#DDE8F6 100%)'}"></div>`;
-    h+=`<div class="bgl">${hexSVG(W,H)}</div>`;
-    h+=`<div class="bgl" style="background:radial-gradient(70% 45% at 100% 0%,${th.glow}${dark?'55':'26'} 0%,transparent 70%)"></div>`;
-    h+=`<div class="bgl" style="background:linear-gradient(180deg,transparent 55%,${dark?'rgba(3,10,28,.55)':'rgba(10,31,68,.06)'} 100%)"></div>`;
+    h+=`<div class="bgl" style="background:${dark?'linear-gradient(180deg,#0C2556 0%,#0A1F44 42%,#061330 100%)':'linear-gradient(180deg,#FFFFFF 0%,#F3F7FC 50%,#E7EEF9 100%)'}"></div>`;
+    h+=`<div class="bgl" style="background:linear-gradient(180deg,transparent 62%,${dark?'rgba(3,10,28,.5)':'rgba(10,31,68,.05)'} 100%)"></div>`;
   }
 
   let prodHTML='', txt='';
